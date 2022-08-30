@@ -52,4 +52,28 @@ def DAP_FirOp : DAP_Op<"fir">
   }];
 }
 
+def DAP_IirOp : DAP_Op<"iir">
+{
+  let summary = [{IIR filter, a infinite impulse response (FIR) filter is a linear
+  time-invariant filter that is used to filter a signal. It is a linear
+  convolution of the input signal with a filter kernel.
+
+  ```mlir
+    dsp.iir %input, %kernel, %output :memref<?xf32>, memref<?x?xf32>, 
+            memref<?xf32>
+  ```
+  }];
+
+  let arguments = (ins Arg<AnyRankedOrUnrankedMemRef, "inputMemref",
+                           [MemRead]>:$memrefI,
+                       Arg<AnyRankedOrUnrankedMemRef, "kernelMemref",
+                           [MemRead]>:$memrefK,
+                       Arg<AnyRankedOrUnrankedMemRef, "outputMemref",
+                           [MemRead]>:$memrefO);
+
+  let assemblyFormat = [{
+    $memrefI `,` $memrefK `,` $memrefO attr-dict `:` type($memrefI) `,` type($memrefK) `,` type($memrefO) 
+  }];
+}
+
 #endif // DAP_DAPOPS_TD
