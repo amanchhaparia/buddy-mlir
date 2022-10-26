@@ -14,8 +14,11 @@ _add_test_executable(buddy-image-container-test
 )
 endif()
 
+add_subdirectory(${KFR_DIR} ./kfr)
+include_directories(${KFR_DIR}/include)
 _add_test_executable(buddy-audio-container-test
   AudioContainerTest.cpp
   LINK_LIBS
-  Container AudioContainer
+  Container AudioContainer kfr_io kfr_dft
 )
+target_link_directories(buddy-audio-container-test PRIVATE ${KFR_DIR}/build/)
